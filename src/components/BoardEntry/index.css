@@ -1,0 +1,10 @@
+.entry-wrapper {
+  height: 50vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.entry-wrapper button {
+  margin: 20px;
+}

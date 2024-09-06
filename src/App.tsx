@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route, Outlet, Link, useNavigate } from "react-router-dom";
+import logo from "./logo.svg";
+import "./App.css";
+import { Button } from "antd";
+import BoardEntry from "./components/BoardEntry";
+import FactorBar from "./components/FactorBar";
+import SaleRecommend from "./components/SaleRecommend";
+import SaleCondition from "./components/SaleCondition";
+import { HomeOutlined } from "@ant-design/icons";
 
 function App() {
+  const navigate = useNavigate();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="home">
+        <Button onClick={() => navigate("/")}>
+          <HomeOutlined /> 返回首页
+        </Button>
+      </div>
+      <Routes>
+        <Route path="/" element={<BoardEntry />} />
+        <Route path="factor" element={<FactorBar />} />
+        <Route path="sale-category" element={<SaleRecommend />} />
+        <Route path="sale-stock" element={<SaleCondition />} />
+        {/* <Route path="*" element={<NoMatch />} /> */}
+      </Routes>
     </div>
   );
 }

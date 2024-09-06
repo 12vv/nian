@@ -1,0 +1,16 @@
+.factorBar-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  width: 80vw;
+  margin: 20px auto;
+  justify-content: center;
+}
+
+.chart-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+  /* height: 50vh; */
+}
