@@ -1,43 +1,16 @@
 import {
-  G2,
   Chart,
-  Tooltip,
-  Interval,
+  GroupedColumnChart,
   Interaction,
-  ColumnChart,
+  Interval,
+  Legend,
 } from "bizcharts";
-import {
-  ProFormCheckbox,
-  ProFormDatePicker,
-  ProFormRadio,
-  ProFormText,
-  QueryFilter,
-} from "@ant-design/pro-components";
 import "./index.css";
-import { Button, Space, Form } from "antd";
+import { Button, Space, Form, Tooltip } from "antd";
 import SelectName from "../SelectName";
 import axios from "axios";
 import { basePath } from "../../config";
 import { useState } from "react";
-
-const data = [
-  { name: "London", 月份: "Jan.", 月均降雨量: 18.9 },
-  { name: "London", 月份: "Feb.", 月均降雨量: 28.8 },
-  { name: "London", 月份: "Mar.", 月均降雨量: 39.3 },
-  { name: "London", 月份: "Apr.", 月均降雨量: 81.4 },
-  { name: "London", 月份: "May", 月均降雨量: 47 },
-  { name: "London", 月份: "Jun.", 月均降雨量: -20.3 },
-  { name: "London", 月份: "Jul.", 月均降雨量: 24 },
-  { name: "London", 月份: "Aug.", 月均降雨量: 35.6 },
-  { name: "Berlin", 月份: "Jan.", 月均降雨量: 12.4 },
-  { name: "Berlin", 月份: "Feb.", 月均降雨量: 23.2 },
-  { name: "Berlin", 月份: "Mar.", 月均降雨量: -34.5 },
-  { name: "Berlin", 月份: "Apr.", 月均降雨量: 99.7 },
-  { name: "Berlin", 月份: "May", 月均降雨量: 52.6 },
-  { name: "Berlin", 月份: "Jun.", 月均降雨量: 35.5 },
-  { name: "Berlin", 月份: "Jul.", 月均降雨量: 37.4 },
-  { name: "Berlin", 月份: "Aug.", 月均降雨量: 42.4 },
-];
 
 const AllFactorBar = () => {
   const [form] = Form.useForm();
@@ -45,9 +18,18 @@ const AllFactorBar = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = (values: any) => {
-    console.log(values);
-    getResult(values);
+    let params = {
+      Name: values?.Name.join(","),
+    };
+    getResult(params);
   };
+
+  const data = [
+    { country: "Asia", year: "1750", value: 502 },
+    { country: "Asia", year: "1800", value: 635 },
+    { country: "Europe", year: "1750", value: 163 },
+    { country: "Europe", year: "1800", value: 203 },
+  ];
 
   const onSelectChange = (values: any) => {
     console.log(values);
@@ -56,21 +38,26 @@ const AllFactorBar = () => {
   const getResult = async (params: any) => {
     try {
       const res = await axios.post(
-        `${basePath}/linearRegression/getOneFactorWeight`,
+        `${basePath}/linearRegression/getPartFactorWeight`,
         {},
         { params: params }
       );
 
       const ori = res?.data?.data;
       let tmpChartData = [] as any;
-      Object.keys(ori).map((item: any) => {
-        if (item !== "name") {
-          tmpChartData.push({
-            factor: item,
-            value: ori[item],
+      ori.map((item: any) => {
+        Object.keys(item).map((k: any) => {
+          let target = item[k];
+          Object.keys(target).map((r: any, index: number) => {
+            tmpChartData.push({
+              name: k,
+              factor: r,
+              value: target[r],
+            });
           });
-        }
+        });
       });
+      console.log("???????????data, ", tmpChartData);
       setChartData(tmpChartData);
     } catch (e) {
       console.log(e);
@@ -105,56 +92,80 @@ const AllFactorBar = () => {
         </Form>
       </div>
       <div className="chart-wrapper">
-        <ColumnChart
+        {/* <GroupedColumnChart
           title={{
             visible: true,
-            alignTo: "center",
+            // alignTo: "center",
             text: "多个要素权重图",
             style: {
               fontSize: 18,
               fill: "black",
             },
           }}
-          height={400}
-          width={1200}
-          // margin={20}
-          padding="auto"
-          data={chartData}
-          autoFit
-          xField="factor"
-          yField="value"
-          label={{
+          description={{
             visible: true,
-            position: "top",
+            alignTo: "left",
+            text: "多个要素权重图多个要素权重图多个要素权重图",
             style: {
-              fill: "rgba(0, 0, 0, 0.65)",
-              stroke: "#ffffff",
-              lineWidth: 2,
-            },
-            formatter: (r: any) => {
-              console.log(r);
-              return r.value.toFixed(2);
+              fontSize: 12,
+              fill: "grey",
             },
           }}
+          legend={{
+            visible: true,
+          }}
+          // height={400}
+          width={1200}
+          // padding="auto"
+          // columnSize={1}
+          // data={data}
+          // xField="year"
+          // yField="value"
+          // groupField="country"
+          // autoFit
+          data={chartData}
+          xField="name"
+          yField="value"
+          groupField="factor"
+          // label={{
+          //   visible: true,
+          //   position: "top",
+          //   style: {
+          //     fill: "rgba(0, 0, 0, 0.65)",
+          //     stroke: "#ffffff",
+          //     lineWidth: 2,
+          //   },
+          //   // formatter: (r: any) => {
+          //   //   console.log(r);
+          //   //   return r.value.toFixed(2);
+          //   // },
+          // }}
           color={"factor"}
-        />
+        /> */}
 
-        {/* <Chart height={400} padding="auto" data={chartData} width={1200}>
+        <Chart
+          padding="auto"
+          data={chartData}
+          // width={1300}
+          height={"50vh"}
+          autoFit
+        >
+          <Legend />
           <Interval
             adjust={[
               {
-                type: "stack",
+                type: "dodge",
                 marginRatio: 0,
               },
             ]}
             color="factor"
-            position="factor*value"
+            position="name*value"
             autoFit
           />
           <Interaction type="element-highlight" />
           <Interaction type="active-region" />
-          <Tooltip shared />
-        </Chart> */}
+          {/* <Tooltip shared/> */}
+        </Chart>
       </div>
     </div>
   );
