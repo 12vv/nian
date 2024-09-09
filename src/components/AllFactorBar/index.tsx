@@ -9,15 +9,18 @@ import {
 } from "bizcharts";
 import "./index.css";
 import { Button, Space, Form, Tooltip, Card } from "antd";
-import SelectName from "../SelectName";
+import SelectNameMulti from "../SelectNameMulti";
 import axios from "axios";
 import { basePath } from "../../config";
 import { useEffect, useState } from "react";
+import { DownloadOutlined } from "@ant-design/icons";
 
 const AllFactorBar = () => {
   const [form] = Form.useForm();
   const [chartData, setChartData] = useState<any>([]);
   const [dataGroup, setDataGroup] = useState<any>([]);
+  const [options, setOptions] = useState<any>([]);
+  const [selectValue, setSelectValue] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = (values: any) => {
@@ -30,6 +33,7 @@ const AllFactorBar = () => {
 
   const onSelectChange = (values: any) => {
     console.log(values);
+    setSelectValue(values);
   };
 
   const getResult = async (params: any) => {
@@ -68,10 +72,6 @@ const AllFactorBar = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("dfasdfadfadf", dataGroup);
-  }, [dataGroup]);
-
   const scale = {
     category: {
       // 禁止 BizCharts 自动排序 category
@@ -79,9 +79,57 @@ const AllFactorBar = () => {
     },
   };
 
+  useEffect(() => {
+    getNameList();
+  }, []);
+
+  const getNameList = async () => {
+    try {
+      const res = await axios.get(`${basePath}/getAllDishName`);
+      const data = res?.data?.data?.map((item: any) => ({
+        key: item?.name,
+        value: item?.name,
+        label: item?.name,
+        // item: item,
+      }));
+      setOptions(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleSelectAll = () => {
+    form.setFieldValue(
+      "Name",
+      options.map(({ value }: any) => value)
+    );
+    console.log(options.map(({ value }: any) => value));
+    form.validateFields(["Name"]);
+    setSelectValue(options.map(({ value }: any) => value));
+  };
+
+  const downloadFile = (url: string) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = ""; // 设置下载文件名，如果不需要特定名称可留空
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownLoad = async () => {
+    try {
+      // const res = await axios.get(`${basePath}/downloadPartDishFactor`);
+      downloadFile("http://69.230.230.156:8082/downloadPartDishFactor");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="factorBar-wrapper">
       <h1>多个要素权重</h1>
+
       <div className="sale-wrapper-filter">
         <Form
           form={form}
@@ -90,10 +138,12 @@ const AllFactorBar = () => {
           layout="vertical"
         >
           <Form.Item name="Name" label="菜品名称" rules={[{ required: true }]}>
-            <SelectName
+            <SelectNameMulti
               onChange={onSelectChange}
               type={"multiple"}
-              width={"1000px"}
+              width={"80vw"}
+              selectValue={selectValue}
+              options={options}
             />
           </Form.Item>
 
@@ -104,11 +154,21 @@ const AllFactorBar = () => {
               </Button>
             </Space>
             <Space>
-              <Button style={{ marginLeft: 10 }}>全选</Button>
+              <Button style={{ marginLeft: 10 }} onClick={handleSelectAll}>
+                全选
+              </Button>
             </Space>
           </Form.Item>
         </Form>
       </div>
+
+      <>
+        <div className="sale-wrapper-header-btns">
+          <Button onClick={() => handleDownLoad()}>
+            <DownloadOutlined />
+          </Button>
+        </div>
+      </>
       <div className="chart-wrapper">
         {/* <GroupedColumnChart
           title={{

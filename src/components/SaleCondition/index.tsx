@@ -231,7 +231,11 @@ const SaleCondition = () => {
               </Radio.Button>
             </Radio.Group>
 
-            <Button onClick={() => setViewType("chart")}>
+            <Button
+              onClick={() => {
+                console.log("download");
+              }}
+            >
               <DownloadOutlined />
             </Button>
           </div>
