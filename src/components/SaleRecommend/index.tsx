@@ -7,8 +7,9 @@ import {
   Select,
   Space,
   InputNumber,
+  Spin,
 } from "antd";
-import { G2, Chart, Tooltip, Interval } from "bizcharts";
+import { G2, Chart, Tooltip, Interval, Interaction } from "bizcharts";
 import { Point, Legend, getTheme, Axis, Annotation } from "bizcharts";
 import { useEffect, useState } from "react";
 import "./index.css";
@@ -20,78 +21,22 @@ import {
 import axios from "axios";
 import { basePath } from "../../config";
 
-console.log(getTheme());
-
-// 数据源
-const data = [
-  {
-    year: "1991",
-    value: 3,
-  },
-  {
-    year: "1992",
-    value: 4,
-  },
-  {
-    year: "1993",
-    value: 3.5,
-  },
-  {
-    year: "1994",
-    value: 5,
-  },
-  {
-    year: "1995",
-    value: 6.5,
-  },
-  {
-    year: "1996",
-    value: 6,
-  },
-  {
-    year: "1997",
-    value: 7,
-  },
-  {
-    year: "1998",
-    value: 9,
-  },
-  {
-    year: "1999",
-    value: 13,
-  },
-];
-
-data.forEach((item: any) => (item.type = item.value > 6 ? 1 : 0));
-
-const data1 = [
-  { month: "Jan", value: 30 },
-  { month: "Feb", value: 90 },
-  { month: "Mar", value: 50 },
-  { month: "Apr", value: 70 },
-  { month: "May", value: 100 },
-  { month: "Jun", value: 130 },
-];
-
 const columns = [
-  { title: "Month", dataIndex: "month", key: "month" },
-  { title: "Value", dataIndex: "value", key: "value" },
+  { title: "菜品名称", dataIndex: "name", key: "name" },
+  { title: "数量", dataIndex: "count", key: "count" },
 ];
 
-const scale = {
-  month: {
-    range: [0, 1],
-  },
-  value: {
-    min: 0,
-  },
-};
 const { Option } = Select;
 
 const SaleCategory = () => {
   const [viewType, setViewType] = useState<"table" | "chart">("table");
-  const [data, setData] = useState<any>([]);
   const [form] = Form.useForm();
+  const [OriTableData, setOriTableData] = useState<any>([]);
+  const [tableData, setTableData] = useState<any>([]);
+  const [chartData, setChartData] = useState<any>([]);
+  const [chartDataRatio, setChartDataRatio] = useState<any>([]);
+  const [chartDataSpeed, setChartDataSpeed] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onSunorRainChange = () => {};
 
@@ -100,6 +45,47 @@ const SaleCategory = () => {
 
     getRecommend(values);
   };
+
+  useEffect(() => {
+    // 转换表格数据
+    let data = [] as any;
+    OriTableData?.map((item: any) => {
+      data.push({ name: item?.[0], count: item?.[1]?.[1] });
+    });
+    setTableData(data);
+
+    // 转换柱状图数据
+    let tmpChartData = [] as any;
+    let tmpChartDataRatio = [] as any;
+    let tmpChartDataSpeed = [] as any;
+
+    OriTableData?.map((item: any) => {
+      tmpChartData.push({
+        商品名称: item?.[0],
+        份数: item?.[1]?.[1],
+      });
+      tmpChartDataRatio.push({
+        商品名称: item?.[0],
+        转换率: item?.[1]?.[0],
+      });
+      tmpChartDataSpeed.push({
+        商品名称: item?.[0],
+        速率: item?.[1]?.[2],
+      });
+    });
+    console.log("==========chartData", chartData);
+    setChartData(tmpChartData);
+    setChartDataRatio(tmpChartDataRatio);
+    setChartDataSpeed(tmpChartDataSpeed);
+  }, [OriTableData]);
+
+  useEffect(() => {
+    let data = [] as any;
+    OriTableData?.map((item: any) => {
+      data.push({ name: item?.[0], count: item?.[1]?.[1] });
+    });
+    setTableData(data);
+  }, [OriTableData]);
 
   const onReset = () => {
     form.resetFields();
@@ -118,30 +104,21 @@ const SaleCategory = () => {
   };
 
   const getRecommend = async (params: any) => {
+    setLoading(true);
+
     try {
       const res = await axios.post(
         `${basePath}/randomForest/getKindSaleSpeedCountSort`,
         {},
         { params: params }
       );
+      setOriTableData(res?.data?.data);
+      setLoading(false);
     } catch (e) {
       console.log(e);
+      setLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //   const params = {
-  //     MaxTemperature: 40,
-  //     MinTemperature: 23,
-  //     StaticStock: 140,
-  //     SunOrRain: 1,
-  //     Discount: 0.5,
-  //     Day: 1,
-  //     Kind: 6,
-  //   };
-
-  //   getRecommend(params);
-  // }, []);
 
   return (
     <div className="sale-wrapper">
@@ -152,7 +129,6 @@ const SaleCategory = () => {
             form={form}
             name="control-hooks"
             onFinish={onFinish}
-            // style={{ maxWidth: 600 }}
             layout="inline"
           >
             <Form.Item
@@ -213,7 +189,7 @@ const SaleCategory = () => {
               <InputNumber />
             </Form.Item>
 
-            {/* <Form.Item>
+            <Form.Item>
               <Space>
                 <Button type="primary" htmlType="submit">
                   Submit
@@ -225,9 +201,9 @@ const SaleCategory = () => {
                   默认值
                 </Button>
               </Space>
-            </Form.Item> */}
+            </Form.Item>
           </Form>
-
+          {/* 
           <Space className="action-btns">
             <Button type="primary" htmlType="submit">
               Submit
@@ -238,7 +214,7 @@ const SaleCategory = () => {
             <Button type="link" htmlType="button" onClick={onFill}>
               默认值
             </Button>
-          </Space>
+          </Space> */}
         </div>
 
         <div className="sale-wrapper-header" style={{ marginBottom: "20px" }}>
@@ -269,60 +245,56 @@ const SaleCategory = () => {
         </div>
 
         <div className="sale-chart-wrapper">
-          {viewType === "table" ? (
-            <Table dataSource={data1} columns={columns} rowKey="month" />
-          ) : (
-            <Chart
-              appendPadding={[10, 0, 0, 10]}
-              autoFit
-              height={350}
-              data={data}
-              onLineClick={console.log}
-              scale={{
-                value: { min: 0, alias: "人均年收入", type: "linear-strict" },
-              }}
-            >
-              <Axis name="year" label={null} />
-              {data.map((item: any) => (
-                <Annotation.Html
-                  offsetY={10}
-                  position={{
-                    year: item.year,
-                    value: 0,
-                  }}
-                  html={`<div style='transform:translateX(-50%);color:${
-                    item.value <= 6 ? "red" : "auto"
-                  };'>${item.year}</div>`}
-                />
-              ))}
-              <Interval
-                position="year*value"
-                color={["type", ["red", "dodgerblue"]]}
-                label={[
-                  "value",
-                  (v) => {
-                    return {
-                      style: {
-                        fill: v <= 6 ? "red" : "dodgerblue",
-                      },
-                    };
-                  },
-                ]}
-                tooltip={[
-                  "year*value",
-                  (title, value) => {
-                    return {
-                      title,
-                      value,
-                      name: "人均年收入",
-                    };
-                  },
-                ]}
-              />
-              <Legend name="type" visible={false} />
-              <Tooltip showCrosshairs follow={false} />
-            </Chart>
-          )}
+          <Spin spinning={loading}>
+            {viewType === "table" ? (
+              <Table dataSource={tableData} columns={columns} rowKey="month" />
+            ) : (
+              <>
+                <Chart
+                  height={200}
+                  width={1000}
+                  padding="auto"
+                  data={chartData}
+                  autoFit
+                >
+                  <Interval position="商品名称*份数" color={"#a8daf9"} />
+                  <Interaction type="element-highlight" />
+                  <Interaction type="active-region" />
+                  <Tooltip shared />
+                </Chart>
+                <div style={{ textAlign: "center", margin: "30px 0 10 0" }}>
+                  转换率
+                </div>
+                <Chart
+                  height={200}
+                  width={1000}
+                  padding="auto"
+                  data={chartDataRatio}
+                  autoFit
+                >
+                  <Interval position="商品名称*转换率" color={"#c5baf3"} />
+                  <Interaction type="element-highlight" />
+                  <Interaction type="active-region" />
+                  <Tooltip shared />
+                </Chart>
+                <div style={{ textAlign: "center", margin: "30px 0 10 0" }}>
+                  速率图
+                </div>
+                <Chart
+                  height={200}
+                  width={1000}
+                  padding="auto"
+                  data={chartDataSpeed}
+                  autoFit
+                >
+                  <Interval position="商品名称*速率" color={"#ffdf92"} />
+                  <Interaction type="element-highlight" />
+                  <Interaction type="active-region" />
+                  <Tooltip shared />
+                </Chart>
+              </>
+            )}
+          </Spin>
         </div>
       </div>
     </div>
