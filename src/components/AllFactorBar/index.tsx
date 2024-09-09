@@ -1,35 +1,32 @@
 import {
   Chart,
+  Coordinate,
+  Facet,
   GroupedColumnChart,
   Interaction,
   Interval,
   Legend,
 } from "bizcharts";
 import "./index.css";
-import { Button, Space, Form, Tooltip } from "antd";
+import { Button, Space, Form, Tooltip, Card } from "antd";
 import SelectName from "../SelectName";
 import axios from "axios";
 import { basePath } from "../../config";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AllFactorBar = () => {
   const [form] = Form.useForm();
   const [chartData, setChartData] = useState<any>([]);
+  const [dataGroup, setDataGroup] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = (values: any) => {
     let params = {
       Name: values?.Name.join(","),
     };
+    setDataGroup([]);
     getResult(params);
   };
-
-  const data = [
-    { country: "Asia", year: "1750", value: 502 },
-    { country: "Asia", year: "1800", value: 635 },
-    { country: "Europe", year: "1750", value: 163 },
-    { country: "Europe", year: "1800", value: 203 },
-  ];
 
   const onSelectChange = (values: any) => {
     console.log(values);
@@ -48,20 +45,38 @@ const AllFactorBar = () => {
       ori.map((item: any) => {
         Object.keys(item).map((k: any) => {
           let target = item[k];
+          let currentData = [] as any;
           Object.keys(target).map((r: any, index: number) => {
             tmpChartData.push({
               name: k,
               factor: r,
               value: target[r],
             });
+            currentData.push({
+              name: k,
+              factor: r,
+              value: target[r],
+            });
           });
+          setDataGroup((prev: any) => [...prev, currentData]);
         });
       });
-      console.log("???????????data, ", tmpChartData);
+      console.log("???????????data, ", tmpChartData, dataGroup);
       setChartData(tmpChartData);
     } catch (e) {
       console.log(e);
     }
+  };
+
+  useEffect(() => {
+    console.log("dfasdfadfadf", dataGroup);
+  }, [dataGroup]);
+
+  const scale = {
+    category: {
+      // 禁止 BizCharts 自动排序 category
+      isOrder: false,
+    },
   };
 
   return (
@@ -87,6 +102,9 @@ const AllFactorBar = () => {
               <Button type="primary" htmlType="submit">
                 查询
               </Button>
+            </Space>
+            <Space>
+              <Button style={{ marginLeft: 10 }}>全选</Button>
             </Space>
           </Form.Item>
         </Form>
@@ -143,15 +161,51 @@ const AllFactorBar = () => {
           color={"factor"}
         /> */}
 
-        <Chart
+        {dataGroup.map((item: any) => {
+          return (
+            <Card style={{ margin: "0 10px 10px 0" }} title={item?.[0]?.name}>
+              <Chart
+                padding="auto"
+                data={item}
+                // width={1000}
+                width={420}
+                height={"180px"}
+                autoFit
+                forceFit
+              >
+                {/* <Coordinate transpose /> */}
+                <Legend />
+                <Interval
+                  scale={scale}
+                  adjust={[
+                    {
+                      type: "dodge",
+                      marginRatio: 0,
+                    },
+                  ]}
+                  color="factor"
+                  position="name*value"
+                  autoFit
+                />
+                <Interaction type="element-highlight" />
+                <Interaction type="active-region" />
+                {/* <Tooltip shared/> */}
+              </Chart>
+            </Card>
+          );
+        })}
+
+        {/* <Chart
           padding="auto"
           data={chartData}
-          // width={1300}
+          width={500}
           height={"50vh"}
           autoFit
+          forceFit
         >
           <Legend />
           <Interval
+            scale={scale}
             adjust={[
               {
                 type: "dodge",
@@ -164,8 +218,7 @@ const AllFactorBar = () => {
           />
           <Interaction type="element-highlight" />
           <Interaction type="active-region" />
-          {/* <Tooltip shared/> */}
-        </Chart>
+        </Chart> */}
       </div>
     </div>
   );
