@@ -7,6 +7,7 @@ import FactorBar from "./components/FactorBar";
 import SaleRecommend from "./components/SaleRecommend";
 import SaleCondition from "./components/SaleCondition";
 import { HomeOutlined } from "@ant-design/icons";
+import AllFactorBar from "./components/AllFactorBar";
 
 function App() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<BoardEntry />} />
         <Route path="factor" element={<FactorBar />} />
+        <Route path="allfactor" element={<AllFactorBar />} />
         <Route path="sale-category" element={<SaleRecommend />} />
         <Route path="sale-stock" element={<SaleCondition />} />
         {/* <Route path="*" element={<NoMatch />} /> */}

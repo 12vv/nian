@@ -39,7 +39,7 @@ const data = [
   { name: "Berlin", 月份: "Aug.", 月均降雨量: 42.4 },
 ];
 
-const FactorBar = () => {
+const AllFactorBar = () => {
   const [form] = Form.useForm();
   const [chartData, setChartData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -79,26 +79,21 @@ const FactorBar = () => {
 
   return (
     <div className="factorBar-wrapper">
-      <h1>单个要素权重</h1>
+      <h1>多个要素权重</h1>
       <div className="sale-wrapper-filter">
         <Form
           form={form}
           name="control-hooks"
           onFinish={onFinish}
-          // style={{ maxWidth: 600 }}
-          layout="inline"
+          layout="vertical"
         >
           <Form.Item name="Name" label="菜品名称" rules={[{ required: true }]}>
-            <SelectName onChange={onSelectChange} />
+            <SelectName
+              onChange={onSelectChange}
+              type={"multiple"}
+              width={"1000px"}
+            />
           </Form.Item>
-
-          {/* <Form.Item
-              name="Kind"
-              label="种类数量"
-              rules={[{ required: true }]}
-            >
-              <InputNumber />
-            </Form.Item> */}
 
           <Form.Item>
             <Space>
@@ -114,7 +109,7 @@ const FactorBar = () => {
           title={{
             visible: true,
             alignTo: "center",
-            text: "单个要素权重图",
+            text: "多个要素权重图",
             style: {
               fontSize: 18,
               fill: "black",
@@ -165,4 +160,4 @@ const FactorBar = () => {
   );
 };
 
-export default FactorBar;
+export default AllFactorBar;

@@ -6,9 +6,10 @@ const BoardEntry = () => {
   const navigate = useNavigate();
   return (
     <div className="entry-wrapper">
-      <Button onClick={() => navigate("/factor")}>
+      <Button onClick={() => navigate("/allfactor")}>
         菜品要素占比信息（少维度）
       </Button>
+      <Button onClick={() => navigate("/factor")}>单个菜品要素占比信息</Button>
       <Button onClick={() => navigate("/sale-category")}>
         按照固定种类数推荐（N=120,K=4）
       </Button>

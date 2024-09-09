@@ -9,7 +9,14 @@ import {
   InputNumber,
   Spin,
 } from "antd";
-import { G2, Chart, Tooltip, Interval, Interaction } from "bizcharts";
+import {
+  G2,
+  Chart,
+  Tooltip,
+  Interval,
+  Interaction,
+  ColumnChart,
+} from "bizcharts";
 import { Point, Legend, getTheme, Axis, Annotation } from "bizcharts";
 import { useEffect, useState } from "react";
 import "./index.css";
@@ -250,48 +257,97 @@ const SaleCategory = () => {
               <Table dataSource={tableData} columns={columns} rowKey="month" />
             ) : (
               <>
-                <Chart
-                  height={200}
+                <ColumnChart
+                  title={{
+                    visible: true,
+                    alignTo: "center",
+                    text: "份数图",
+                    style: {
+                      fontSize: 18,
+                      fill: "black",
+                    },
+                  }}
+                  height={150}
                   width={1000}
+                  // margin={20}
                   padding="auto"
                   data={chartData}
                   autoFit
-                >
-                  <Interval position="商品名称*份数" color={"#a8daf9"} />
-                  <Interaction type="element-highlight" />
-                  <Interaction type="active-region" />
-                  <Tooltip shared />
-                </Chart>
-                <div style={{ textAlign: "center", margin: "30px 0 10 0" }}>
-                  转换率
-                </div>
-                <Chart
-                  height={200}
+                  xField="商品名称"
+                  yField="份数"
+                  label={{
+                    visible: true,
+                    position: "top",
+                    // offsetX: 6,
+                    // offsetY: 6,
+                    style: {
+                      fill: "rgba(0, 0, 0, 0.65)",
+                      stroke: "#ffffff",
+                      lineWidth: 2,
+                    },
+                  }}
+                  color={"#a8daf9"}
+                />
+                <ColumnChart
+                  title={{
+                    visible: true,
+                    alignTo: "center",
+                    text: "转换率图",
+                    style: {
+                      fontSize: 18,
+                      fill: "black",
+                    },
+                  }}
+                  height={150}
                   width={1000}
+                  // margin={20}
                   padding="auto"
                   data={chartDataRatio}
                   autoFit
-                >
-                  <Interval position="商品名称*转换率" color={"#c5baf3"} />
-                  <Interaction type="element-highlight" />
-                  <Interaction type="active-region" />
-                  <Tooltip shared />
-                </Chart>
-                <div style={{ textAlign: "center", margin: "30px 0 10 0" }}>
-                  速率图
-                </div>
-                <Chart
-                  height={200}
+                  xField="商品名称"
+                  yField="转换率"
+                  label={{
+                    visible: true,
+                    position: "top",
+                    // offsetX: 6,
+                    // offsetY: 6,
+                    style: {
+                      fill: "rgba(0, 0, 0, 0.65)",
+                      stroke: "#ffffff",
+                      lineWidth: 2,
+                    },
+                  }}
+                  color={"#c5baf3"}
+                />
+                <ColumnChart
+                  title={{
+                    visible: true,
+                    alignTo: "center",
+                    text: "速率图",
+                    style: {
+                      fontSize: 18,
+                      fill: "black",
+                    },
+                  }}
+                  height={150}
                   width={1000}
+                  // margin={20}
                   padding="auto"
                   data={chartDataSpeed}
                   autoFit
-                >
-                  <Interval position="商品名称*速率" color={"#ffdf92"} />
-                  <Interaction type="element-highlight" />
-                  <Interaction type="active-region" />
-                  <Tooltip shared />
-                </Chart>
+                  xField="商品名称"
+                  yField="速率"
+                  label={{
+                    visible: true,
+                    position: "top",
+                    style: {
+                      fill: "rgba(0, 0, 0, 0.65)",
+                      stroke: "#ffffff",
+                      lineWidth: 2,
+                    },
+                  }}
+                  color={"#ffdf92"}
+                />
               </>
             )}
           </Spin>
