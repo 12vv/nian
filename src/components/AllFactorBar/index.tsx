@@ -164,9 +164,11 @@ const AllFactorBar = () => {
 
       <>
         <div className="sale-wrapper-header-btns">
-          <Button onClick={() => handleDownLoad()}>
-            <DownloadOutlined />
-          </Button>
+          {chartData.length > 0 && (
+            <Button onClick={() => handleDownLoad()}>
+              点击下载 <DownloadOutlined />
+            </Button>
+          )}
         </div>
       </>
       <div className="chart-wrapper">
@@ -228,13 +230,19 @@ const AllFactorBar = () => {
                 padding="auto"
                 data={item}
                 // width={1000}
-                width={420}
+                width={400}
                 height={"180px"}
                 autoFit
                 forceFit
               >
                 {/* <Coordinate transpose /> */}
-                <Legend />
+                <Legend
+                  position="right"
+                  filter={(value) => {
+                    console.log(value);
+                    return true;
+                  }}
+                />
                 <Interval
                   scale={scale}
                   adjust={[
