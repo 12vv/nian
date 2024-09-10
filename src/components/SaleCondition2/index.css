@@ -1,4 +1,4 @@
-.sale-wrapper-stock {
+.sale-wrapper {
   display: flex;
   flex-direction: column;
   height: 90vh;
@@ -7,7 +7,7 @@
   justify-content: center;
 }
 
-.sale-wrapper-stock .sale-chart-wrapper {
+.sale-chart-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,28 +16,15 @@
   /* min-width: 1000px; */
 }
 
-.sale-wrapper-stock .sale-wrapper-header {
+.sale-wrapper-header {
   display: flex;
   justify-content: end;
 }
 
-.sale-wrapper-stock .sale-wrapper-header button {
+.sale-wrapper-header button {
   margin: 0 0 0 10px;
 }
 
-.sale-wrapper-stock .sale-wrapper-filter {
+.sale-wrapper-filter {
   /* margin: 40px 0 20px 0; */
-}
-
-.sale-wrapper-stock h1 {
-  font-size: 20px;
-}
-
-@media (min-height: 1127px) {
-  .sale-wrapper-stock h1 {
-    font-size: 30px;
-  }
-}
-
-@media (min-height: 1300px) {
 }

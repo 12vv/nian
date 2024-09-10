@@ -8,7 +8,6 @@ import {
   Space,
   InputNumber,
   Spin,
-  Card,
 } from "antd";
 import {
   G2,
@@ -24,8 +23,6 @@ import "./index.css";
 import {
   BarChartOutlined,
   DownloadOutlined,
-  MinusCircleOutlined,
-  PlusOutlined,
   TableOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
@@ -62,19 +59,7 @@ const SaleCategory = () => {
     OriTableData?.map((item: any) => {
       data.push({ name: item?.[0], count: item?.[1]?.[1] });
     });
-
-    // 将数据项变为列的实现
-    // const transformedData = Object.keys(data).map((key) => ({
-    //   key,
-    //   label: key,
-    //   ...data.reduce((acc: any, item: any) => {
-    //     acc[item.key] = item[key];
-    //     return acc;
-    //   }, {}),
-    // }));
-
     setTableData(data);
-    // setTableData(transformedData);
 
     // 转换柱状图数据
     let tmpChartData = [] as any;
@@ -142,170 +127,90 @@ const SaleCategory = () => {
     }
   };
 
-  // function onClick(event: MouseEvent<HTMLElement, MouseEvent>): void {
-  //   throw new Error("Function not implemented.");
-  // }
-
   return (
-    <div className="sale-wrapper-kind">
+    <div className="sale-wrapper">
       <div>
         <h1>按照固定种类数推荐</h1>
-        <Card style={{ width: "90vw" }}>
-          <div className="sale-wrapper-filter">
-            <Form
-              form={form}
-              name="control-hooks"
-              onFinish={onFinish}
-              layout="inline"
+        <div className="sale-wrapper-filter">
+          <Form
+            form={form}
+            name="control-hooks"
+            onFinish={onFinish}
+            layout="inline"
+          >
+            <Form.Item
+              name="StaticStock"
+              label="固定库存"
+              rules={[{ required: true }]}
             >
-              <Form.List name="queryParams">
-                {(fields, { add, remove }) => (
-                  <>
-                    {fields.map(({ key, name, ...restField }) => (
-                      <Space
-                        key={key}
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          marginBottom: 8,
-                        }}
-                        align="baseline"
-                      >
-                        <Form.Item
-                          name={[name, "StaticStock"]}
-                          label="固定库存"
-                          rules={[{ required: true }]}
-                        >
-                          <InputNumber style={{ width: 80 }} />
-                        </Form.Item>
+              <InputNumber />
+            </Form.Item>
 
-                        <Form.Item
-                          name={[name, "MaxTemperature"]}
-                          // name="MaxTemperature"
-                          label="最高温度"
-                          rules={[{ required: true }]}
-                        >
-                          <InputNumber style={{ width: 60 }} />
-                        </Form.Item>
+            <Form.Item
+              name="MaxTemperature"
+              label="最高温度"
+              rules={[{ required: true }]}
+            >
+              <InputNumber />
+            </Form.Item>
 
-                        <Form.Item
-                          name={[name, "MinTemperature"]}
-                          // name="MinTemperature"
-                          label="最低温度"
-                          rules={[{ required: true }]}
-                        >
-                          <InputNumber style={{ width: 60 }} />
-                        </Form.Item>
-                        <Form.Item
-                          name={[name, "SunOrRain"]}
-                          // name="SunOrRain"
-                          label="SunOrRain"
-                          rules={[{ required: true }]}
-                        >
-                          <Select
-                            placeholder="Select"
-                            onChange={onSunorRainChange}
-                            allowClear
-                          >
-                            <Option value={1}>Sun</Option>
-                            <Option value={0}>Rain</Option>
-                          </Select>
-                        </Form.Item>
+            <Form.Item
+              name="MinTemperature"
+              label="最低温度"
+              rules={[{ required: true }]}
+            >
+              <InputNumber />
+            </Form.Item>
+            <Form.Item
+              name="SunOrRain"
+              label="SunOrRain"
+              rules={[{ required: true }]}
+            >
+              <Select
+                placeholder="Select "
+                onChange={onSunorRainChange}
+                allowClear
+              >
+                <Option value="1">Sun</Option>
+                <Option value="0">Rain</Option>
+              </Select>
+            </Form.Item>
 
-                        <Form.Item
-                          // name="Discount"
-                          label="折扣"
-                          rules={[{ required: true }]}
-                          name={[name, "Discount"]}
-                        >
-                          <InputNumber style={{ width: 60 }} />
-                        </Form.Item>
+            <Form.Item
+              name="Discount"
+              label="折扣"
+              rules={[{ required: true }]}
+            >
+              <InputNumber />
+            </Form.Item>
 
-                        <Form.Item
-                          // name="Day"
-                          label="Day"
-                          rules={[{ required: true }]}
-                          name={[name, "Day"]}
-                        >
-                          {/* <InputNumber /> */}
+            <Form.Item name="Day" label="Day" rules={[{ required: true }]}>
+              <InputNumber />
+            </Form.Item>
 
-                          <Select
-                            // defaultValue="1"
-                            style={{ width: 90 }}
-                            // onChange={handleChange}
-                            options={[
-                              { value: 1, label: "星期一" },
-                              { value: 2, label: "星期二" },
-                              { value: 3, label: "星期三" },
-                              { value: 4, label: "星期四" },
-                              { value: 5, label: "星期五" },
-                              { value: 6, label: "星期六" },
-                              { value: 7, label: "星期日" },
-                            ]}
-                          />
-                        </Form.Item>
+            <Form.Item
+              name="Kind"
+              label="种类数量"
+              rules={[{ required: true }]}
+            >
+              <InputNumber />
+            </Form.Item>
 
-                        <Form.Item
-                          name={[name, "Kind"]}
-                          // name="Kind"
-                          label="种类数量"
-                          rules={[{ required: true }]}
-                        >
-                          <InputNumber style={{ width: 50 }} />
-                        </Form.Item>
-
-                        <Form.Item>
-                          <Space>
-                            {/* <Button type="primary" htmlType="submit">
-                            Submit
-                          </Button> */}
-                            {/* <Button htmlType="button" onClick={onReset}>
-                            Reset
-                          </Button> */}
-                            {/* <Button
-                            type="link"
-                            htmlType="button"
-                            onClick={onFill}
-                          >
-                            默认值
-                          </Button> */}
-                          </Space>
-                        </Form.Item>
-                        <MinusCircleOutlined onClick={() => remove(name)} />
-                      </Space>
-                    ))}
-                    <div className="btn-wrapper">
-                      <Form.Item>
-                        <Button
-                          type="dashed"
-                          onClick={() =>
-                            add({
-                              MaxTemperature: 40,
-                              MinTemperature: 23,
-                              StaticStock: 140,
-                              SunOrRain: 1,
-                              Discount: 0.5,
-                              Day: 1,
-                              Kind: 6,
-                            })
-                          }
-                          block
-                          icon={<PlusOutlined />}
-                        >
-                          添加查询日
-                        </Button>
-                      </Form.Item>
-                      <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                          Submit
-                        </Button>
-                      </Form.Item>
-                    </div>
-                  </>
-                )}
-              </Form.List>
-            </Form>
-            {/* 
+            <Form.Item>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+                <Button htmlType="button" onClick={onReset}>
+                  Reset
+                </Button>
+                <Button type="link" htmlType="button" onClick={onFill}>
+                  默认值
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+          {/* 
           <Space className="action-btns">
             <Button type="primary" htmlType="submit">
               Submit
@@ -317,8 +222,8 @@ const SaleCategory = () => {
               默认值
             </Button>
           </Space> */}
-          </div>
-        </Card>
+        </div>
+
         <div className="sale-wrapper-header" style={{ marginBottom: "20px" }}>
           {/* <Button onClick={() => setViewType("table")} >
             <TableOutlined />

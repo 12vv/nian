@@ -48,7 +48,6 @@ const SaleCondition = () => {
     { title: "菜品名称", dataIndex: "name", key: "name" },
     { title: "数量", dataIndex: "count", key: "count" },
   ];
-  // const [dynamicCol, setDynamicCol] = useState<any>(columns);
 
   useEffect(() => {
     // 转换表格数据
@@ -57,35 +56,6 @@ const SaleCondition = () => {
       data.push({ name: item?.[0], count: item?.[1]?.[1] });
     });
     setTableData(data);
-
-    // if (!(data?.length > 0)) return;
-    // // 工具函数：将原数据转置
-    // const transposeData = (data: any) => {
-    //   const fields = Object.keys(data?.[0]);
-    //   return fields.map((field) => ({
-    //     key: field,
-    //     field,
-    //     ...data.reduce((acc: any, item: any) => {
-
-    //       acc[item.key] = item[field];
-    //       return acc;
-    //     }, {}),
-    //   }));
-    // };
-
-    // setTableData(transposeData(data));
-
-    // // 动态生成列
-    // const columns = [
-    //   { title: "字段", dataIndex: "field", key: "field" },
-    //   ...data.map((item: any) => ({
-    //     title: item.name,
-    //     dataIndex: item.key,
-    //     key: item.key,
-    //   })),
-    // ];
-
-    // setDynamicCol(columns);
 
     // 转换柱状图数据
     let tmpChartData = [] as any;
@@ -106,6 +76,12 @@ const SaleCondition = () => {
         速率: item?.[1]?.[2],
       });
     });
+    console.log(
+      "==========chartData",
+      tmpChartData,
+      tmpChartDataRatio,
+      tmpChartDataSpeed
+    );
     setChartData(tmpChartData);
     setChartDataRatio(tmpChartDataRatio);
     setChartDataSpeed(tmpChartDataSpeed);
@@ -147,8 +123,10 @@ const SaleCondition = () => {
     }
   };
 
+  const onSunOrRainChange = () => {};
+
   return (
-    <div className="sale-wrapper-stock">
+    <div className="sale-wrapper">
       <div>
         <h1>按照固定入库量推荐（N=140）</h1>
         <div className="sale-wrapper-filter">
@@ -187,9 +165,13 @@ const SaleCondition = () => {
               label="SunOrRain"
               rules={[{ required: true }]}
             >
-              <Select placeholder="Select " allowClear>
-                <Option value={1}>Sun</Option>
-                <Option value={0}>Rain</Option>
+              <Select
+                placeholder="Select "
+                onChange={onSunOrRainChange}
+                allowClear
+              >
+                <Option value="1">Sun</Option>
+                <Option value="0">Rain</Option>
               </Select>
             </Form.Item>
 

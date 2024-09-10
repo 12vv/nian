@@ -8,12 +8,13 @@ import {
   Legend,
 } from "bizcharts";
 import "./index.css";
-import { Button, Space, Form, Tooltip, Card } from "antd";
+import { Button, Space, Form, Tooltip, Card, Empty, Spin } from "antd";
 import SelectNameMulti from "../SelectNameMulti";
 import axios from "axios";
 import { basePath } from "../../config";
 import { useEffect, useState } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
+import BigModal from "./BigModal";
 
 const AllFactorBar = () => {
   const [form] = Form.useForm();
@@ -22,6 +23,8 @@ const AllFactorBar = () => {
   const [options, setOptions] = useState<any>([]);
   const [selectValue, setSelectValue] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [data, setData] = useState<any>();
 
   const onFinish = (values: any) => {
     let params = {
@@ -37,6 +40,7 @@ const AllFactorBar = () => {
   };
 
   const getResult = async (params: any) => {
+    setLoading(true);
     try {
       const res = await axios.post(
         `${basePath}/linearRegression/getPartFactorWeight`,
@@ -67,8 +71,10 @@ const AllFactorBar = () => {
       });
       console.log("???????????data, ", tmpChartData, dataGroup);
       setChartData(tmpChartData);
+      setLoading(false);
     } catch (e) {
       console.log(e);
+      setLoading(false);
     }
   };
 
@@ -126,53 +132,84 @@ const AllFactorBar = () => {
     }
   };
 
+  const handleCardClick = (item: any) => {
+    console.log(item);
+    setData(item);
+    setVisible(true);
+  };
+
   return (
-    <div className="factorBar-wrapper">
-      <h1>多个要素权重</h1>
+    <>
+      <BigModal
+        data={data}
+        visible={visible}
+        onCancel={() => {
+          setVisible(false);
+        }}
+      />
 
-      <div className="sale-wrapper-filter">
-        <Form
-          form={form}
-          name="control-hooks"
-          onFinish={onFinish}
-          layout="vertical"
-        >
-          <Form.Item name="Name" label="菜品名称" rules={[{ required: true }]}>
-            <SelectNameMulti
-              onChange={onSelectChange}
-              type={"multiple"}
-              width={"80vw"}
-              selectValue={selectValue}
-              options={options}
-            />
-          </Form.Item>
+      <div className="allfactorBar-wrapper">
+        <h1>多个要素权重</h1>
 
-          <Form.Item>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                查询
-              </Button>
-            </Space>
-            <Space>
-              <Button style={{ marginLeft: 10 }} onClick={handleSelectAll}>
-                全选
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </div>
+        <div className="sale-wrapper-filter">
+          <Form
+            form={form}
+            name="control-hooks"
+            onFinish={onFinish}
+            layout="vertical"
+          >
+            <Form.Item
+              name="Name"
+              label="菜品名称"
+              rules={[{ required: true }]}
+            >
+              <SelectNameMulti
+                onChange={onSelectChange}
+                type={"multiple"}
+                width={"80vw"}
+                selectValue={selectValue}
+                options={options}
+              />
+            </Form.Item>
 
-      <>
-        <div className="sale-wrapper-header-btns">
-          {chartData.length > 0 && (
-            <Button onClick={() => handleDownLoad()}>
-              点击下载 <DownloadOutlined />
-            </Button>
-          )}
+            <Form.Item>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  查询
+                </Button>
+              </Space>
+              <Space>
+                <Button style={{ marginLeft: 10 }} onClick={handleSelectAll}>
+                  全选
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
         </div>
-      </>
-      <div className="chart-wrapper">
-        {/* <GroupedColumnChart
+
+        <>
+          {/* <div className="sale-wrapper-header-btns">
+            {chartData.length > 0 && (
+              <Button onClick={() => handleDownLoad()}>
+                点击下载 <DownloadOutlined style={{ fontSize: 20 }} />
+              </Button>
+            )}
+          </div> */}
+        </>
+        <Card
+          title="查询结果（可滑动，右侧点击下载）"
+          extra={
+            <Button onClick={() => handleDownLoad()} type="primary">
+              点击下载 <DownloadOutlined style={{ fontSize: 20 }} />
+            </Button>
+          }
+        >
+          <Spin spinning={loading}>
+            {dataGroup?.length == 0 ? (
+              <Empty />
+            ) : (
+              <div className="chart-wrapper">
+                {/* <GroupedColumnChart
           title={{
             visible: true,
             // alignTo: "center",
@@ -223,47 +260,54 @@ const AllFactorBar = () => {
           color={"factor"}
         /> */}
 
-        {dataGroup.map((item: any) => {
-          return (
-            <Card style={{ margin: "0 10px 10px 0" }} title={item?.[0]?.name}>
-              <Chart
-                padding="auto"
-                data={item}
-                // width={1000}
-                width={400}
-                height={"180px"}
-                autoFit
-                forceFit
-              >
-                {/* <Coordinate transpose /> */}
-                <Legend
-                  position="right"
-                  filter={(value) => {
-                    console.log(value);
-                    return true;
-                  }}
-                />
-                <Interval
-                  scale={scale}
-                  adjust={[
-                    {
-                      type: "dodge",
-                      marginRatio: 0,
-                    },
-                  ]}
-                  color="factor"
-                  position="name*value"
-                  autoFit
-                />
-                <Interaction type="element-highlight" />
-                <Interaction type="active-region" />
-                {/* <Tooltip shared/> */}
-              </Chart>
-            </Card>
-          );
-        })}
+                {dataGroup.map((item: any) => {
+                  return (
+                    <Card
+                      hoverable
+                      style={{ margin: "0 10px 10px 0", cursor: "pointer" }}
+                      title={item?.[0]?.name}
+                      onClick={() => {
+                        handleCardClick(item);
+                      }}
+                    >
+                      <Chart
+                        padding="auto"
+                        data={item}
+                        // width={1000}
+                        width={400}
+                        height={"180px"}
+                        autoFit
+                        forceFit
+                      >
+                        {/* <Coordinate transpose /> */}
+                        <Legend
+                          position="right"
+                          filter={(value) => {
+                            console.log(value);
+                            return true;
+                          }}
+                        />
+                        <Interval
+                          scale={scale}
+                          adjust={[
+                            {
+                              type: "dodge",
+                              marginRatio: 0,
+                            },
+                          ]}
+                          color="factor"
+                          position="name*value"
+                          autoFit
+                        />
+                        <Interaction type="element-highlight" />
+                        <Interaction type="active-region" />
+                        {/* <Tooltip shared/> */}
+                      </Chart>
+                    </Card>
+                  );
+                })}
 
-        {/* <Chart
+                {/* <Chart
           padding="auto"
           data={chartData}
           width={500}
@@ -287,8 +331,12 @@ const AllFactorBar = () => {
           <Interaction type="element-highlight" />
           <Interaction type="active-region" />
         </Chart> */}
+              </div>
+            )}
+          </Spin>
+        </Card>
       </div>
-    </div>
+    </>
   );
 };
 

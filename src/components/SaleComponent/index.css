@@ -1,0 +1,68 @@
+.sale-wrapper-common {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  width: 90vw;
+  margin: 20px auto;
+  justify-content: center;
+}
+
+.sale-wrapper-common .btn-wrapper {
+  display: flex;
+}
+
+.sale-wrapper-common .sale-chart-wrapper {
+  /* display: flex; */
+  /* align-items: center;
+  justify-content: center; */
+  /* margin: 20px; */
+  height: 60vh;
+  /* flex-wrap: wrap; */
+  width: 90vw;
+  overflow-x: auto;
+  white-space: nowrap;
+  overflow-y: hidden;
+}
+
+/* .sale-wrapper-common .sale-wrapper-filter {
+  max-height: 200px;
+  width: 90vw;
+  overflow-y: scroll;
+} */
+
+.sale-wrapper-common .sale-wrapper-filter-card {
+  max-height: 180px;
+  width: 90vw;
+  overflow-y: scroll;
+}
+
+.sale-wrapper-common .sale-wrapper-header {
+  display: flex;
+  justify-content: end;
+}
+
+.sale-wrapper-common .sale-wrapper-header button {
+  margin: 5px;
+}
+
+.sale-wrapper-common .action-btns {
+  display: flex;
+  margin: 20px 0 0 0;
+}
+
+.sale-wrapper-common h1 {
+  font-size: 20px;
+}
+
+@media (min-height: 1127px) {
+  .sale-wrapper-common h1 {
+    font-size: 30px;
+  }
+
+  .sale-wrapper-common .sale-wrapper-filter-card {
+    max-height: 400px;
+  }
+}
+
+@media (min-height: 1300px) {
+}

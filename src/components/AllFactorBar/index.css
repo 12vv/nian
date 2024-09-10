@@ -1,4 +1,4 @@
-.factorBar-wrapper {
+.allfactorBar-wrapper {
   display: flex;
   flex-direction: column;
   height: 90vh;
@@ -7,19 +7,53 @@
   justify-content: center;
 }
 
-.chart-wrapper {
+.allfactorBar-wrapper .chart-wrapper {
   display: flex;
   /* align-items: center; */
   justify-content: center;
   margin: 20px;
   /* height: 50vh; */
   flex-wrap: wrap;
-  height: 65vh;
+  height: 40vh;
   overflow-y: scroll;
 }
 
-.sale-wrapper-filter {
+.allfactorBar-wrapper .sale-wrapper-filter {
   display: flex;
   align-items: start;
   text-align: left;
+}
+
+.allfactorBar-wrapper .sale-wrapper-header-btns {
+  font-size: 20px;
+}
+
+.allfactorBar-wrapper .sale-wrapper-header-btns button {
+  padding: 20px;
+}
+
+/* @media (min-height: 1000px) {
+  .chart-wrapper {
+    height: 45vh;
+  }
+} */
+
+.allfactorBar-wrapper h1 {
+  font-size: 20px;
+}
+
+@media (min-height: 1127px) {
+  .allfactorBar-wrapper .chart-wrapper {
+    height: 50vh;
+  }
+
+  .allfactorBar-wrapper h1 {
+    font-size: 30px;
+  }
+}
+
+@media (min-height: 1300px) {
+  .allfactorBar-wrapper .chart-wrapper {
+    height: 60vh;
+  }
 }
