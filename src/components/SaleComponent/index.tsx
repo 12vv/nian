@@ -365,7 +365,7 @@ const SaleComponent = (props: any) => {
               </Button>
             </div>
           </div>
-          <Spin spinning={loading} style={{ width: "90vw" }}>
+          <Spin spinning={loading}>
             <div className="sale-chart-wrapper">
               {viewType === "table" ? (
                 <>
@@ -385,6 +385,7 @@ const SaleComponent = (props: any) => {
                           display: "inline-block",
                           width: "200px",
                           margin: "0 20px",
+                          cursor: "pointer",
                           // height: "200px",
                         }}
                       >

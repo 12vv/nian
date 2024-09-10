@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 90vh;
-  width: 90vw;
+  width: 98vw;
   margin: 20px auto;
   justify-content: center;
 }
@@ -16,9 +16,9 @@
   /* align-items: center;
   justify-content: center; */
   /* margin: 20px; */
-  height: 60vh;
+  height: 400px;
   /* flex-wrap: wrap; */
-  width: 90vw;
+  /* width: 90vw; */
   overflow-x: auto;
   white-space: nowrap;
   overflow-y: hidden;
@@ -31,7 +31,7 @@
 } */
 
 .sale-wrapper-common .sale-wrapper-filter-card {
-  max-height: 180px;
+  max-height: 120px;
   width: 90vw;
   overflow-y: scroll;
 }
@@ -60,7 +60,11 @@
   }
 
   .sale-wrapper-common .sale-wrapper-filter-card {
-    max-height: 400px;
+    max-height: 700px;
+  }
+
+  .sale-wrapper-common .sale-chart-wrapper {
+    height: 500px;
   }
 }
 

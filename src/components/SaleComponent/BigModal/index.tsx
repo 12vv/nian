@@ -77,7 +77,7 @@ const BigModal: React.FC<ModalFormProps> = ({
                 fill: "black",
               },
             }}
-            height={140}
+            height={200}
             width={1000}
             padding="auto"
             data={chartData}
@@ -105,7 +105,7 @@ const BigModal: React.FC<ModalFormProps> = ({
                 fill: "black",
               },
             }}
-            height={140}
+            height={200}
             width={1000}
             padding="auto"
             data={chartDataRatio}
@@ -133,7 +133,7 @@ const BigModal: React.FC<ModalFormProps> = ({
                 fill: "black",
               },
             }}
-            height={140}
+            height={200}
             width={1000}
             // margin={20}
             padding="auto"
