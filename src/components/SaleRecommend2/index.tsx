@@ -35,7 +35,7 @@ const columns = [
 
 const { Option } = Select;
 
-const SaleCategory = () => {
+const SaleCategory2 = () => {
   const [viewType, setViewType] = useState<"table" | "chart">("table");
   const [form] = Form.useForm();
   const [OriTableData, setOriTableData] = useState<any>([]);
@@ -357,4 +357,4 @@ const SaleCategory = () => {
   );
 };
 
-export default SaleCategory;
+export default SaleCategory2;

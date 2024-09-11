@@ -126,7 +126,7 @@ const AllFactorBar = () => {
   const handleDownLoad = async () => {
     try {
       // const res = await axios.get(`${basePath}/downloadPartDishFactor`);
-      downloadFile("http://69.230.230.156:8082/downloadPartDishFactor");
+      downloadFile(`${basePath}/downloadPartDishFactor`);
     } catch (e) {
       console.log(e);
     }
