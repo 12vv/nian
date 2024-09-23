@@ -34,6 +34,7 @@ function App() {
           element={
             <SaleComponent
               title={"按照固定入库量推荐（多天）"}
+              downloadPath={"/downloadDaysMaxSaleSpeedCountSortByStock"}
               url={"/randomForest/getDaysMaxSaleSpeedCountSortByStock"}
               // isKind={true}
             />
@@ -45,6 +46,7 @@ function App() {
             <SaleComponent
               title={"按照固定入库量和种类推荐（多天）"}
               url={"/randomForest/getDaysMaxSaleSpeedCountSortByKindStock"}
+              downloadPath={"/downloadDaysMaxSaleSpeedCountSortByKindStock"}
               isKind={true}
             />
           }

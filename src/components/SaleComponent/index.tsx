@@ -44,6 +44,7 @@ const SaleComponent = (props: any) => {
     url = "/randomForest/getKindSaleSpeedCountSort",
     isKind = false,
     title = "按照固定种类数推荐",
+    downloadPath = "/downloadDaysMaxSaleSpeedCountSortByStock",
   } = props;
   const [viewType, setViewType] = useState<"table" | "chart">("table");
   const [form] = Form.useForm();
@@ -114,6 +115,23 @@ const SaleComponent = (props: any) => {
 
   const handleRateChange = (values: any) => {
     setRate(values);
+  };
+
+  const downloadFile = (url: string) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = ""; // 设置下载文件名，如果不需要特定名称可留空
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownLoad = async () => {
+    try {
+      downloadFile(`${basePath}${downloadPath}`);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -324,7 +342,11 @@ const SaleComponent = (props: any) => {
                 </Radio.Button> */}
               </Radio.Group>
 
-              <Button onClick={() => setViewType("chart")}>
+              <Button
+                onClick={() => {
+                  handleDownLoad();
+                }}
+              >
                 <DownloadOutlined />
               </Button>
             </div>
