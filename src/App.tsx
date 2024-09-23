@@ -34,7 +34,17 @@ function App() {
           element={
             <SaleComponent
               title={"按照固定入库量推荐（多天）"}
-              url={"/randomForest/getDaysMaxSaleSpeedCountSortByKind"}
+              url={"/randomForest/getDaysMaxSaleSpeedCountSortByStock"}
+              // isKind={true}
+            />
+          }
+        />
+        <Route
+          path="testkind"
+          element={
+            <SaleComponent
+              title={"按照固定入库量和种类推荐（多天）"}
+              url={"/randomForest/getDaysMaxSaleSpeedCountSortByKindStock"}
               isKind={true}
             />
           }

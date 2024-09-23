@@ -47,6 +47,8 @@ const SaleComponent = (props: any) => {
   } = props;
   const [viewType, setViewType] = useState<"table" | "chart">("table");
   const [form] = Form.useForm();
+  const [form1] = Form.useForm();
+
   const [OriTableData, setOriTableData] = useState<any>([]);
   const [tableData, setTableData] = useState<any>([]);
   const [chartData, setChartData] = useState<any>([]);
@@ -58,10 +60,15 @@ const SaleComponent = (props: any) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [allData, setAllData] = useState<any>([]);
   const [current, setCurrent] = useState<any>();
+  const [showRate, setShowRate] = useState<boolean>(false);
+  const [rate, setRate] = useState<number>(0.5);
 
   const onFinish = (values: any) => {
     console.log(values);
-    getRecommend(values);
+    getRecommend({
+      repetitionRate: rate,
+      ...values,
+    });
   };
 
   const getRecommend = async (params: any) => {
@@ -96,6 +103,19 @@ const SaleComponent = (props: any) => {
     }
   };
 
+  const handleFormChange = () => {
+    console.log(form.getFieldsValue());
+    if (form.getFieldsValue()?.queryParams?.length >= 2) {
+      setShowRate(true);
+    } else {
+      setShowRate(false);
+    }
+  };
+
+  const handleRateChange = (values: any) => {
+    setRate(values);
+  };
+
   return (
     <>
       <BigModal
@@ -109,6 +129,27 @@ const SaleComponent = (props: any) => {
       <div className="sale-wrapper-common">
         <div>
           <h1>{title}</h1>
+          <div style={{ marginBottom: 10 }}>
+            <Form form={form1} name="control-hooks1" layout="inline">
+              <Form.Item
+                style={{
+                  display: showRate ? "block" : "none",
+                }}
+                shouldUpdate
+                name={"repetitionRate"}
+                label="重复率"
+                rules={[{ required: true }]}
+              >
+                <InputNumber
+                  onChange={handleRateChange}
+                  style={{ width: 60 }}
+                  min={0}
+                  max={1}
+                  defaultValue={0.5}
+                />
+              </Form.Item>
+            </Form>
+          </div>
           {viewType === "table" && (
             <Card
               style={{ width: "90vw" }}
@@ -120,10 +161,11 @@ const SaleComponent = (props: any) => {
                   name="control-hooks"
                   onFinish={onFinish}
                   layout="inline"
+                  onChange={handleFormChange}
                 >
                   <Form.List name="queryParams">
                     {(fields, { add, remove }) => (
-                      <>
+                      <div>
                         {fields.map(({ key, name, ...restField }) => (
                           <Space
                             key={key}
@@ -206,14 +248,29 @@ const SaleComponent = (props: any) => {
                               </Form.Item>
                             )}
 
-                            <MinusCircleOutlined onClick={() => remove(name)} />
+                            <MinusCircleOutlined
+                              onClick={() => {
+                                remove(name);
+                                if (
+                                  form.getFieldsValue()?.queryParams?.length >=
+                                  2
+                                ) {
+                                  setShowRate(true);
+                                } else {
+                                  setShowRate(false);
+                                }
+                              }}
+                            />
                           </Space>
                         ))}
                         <div className="btn-wrapper">
                           <Form.Item>
                             <Button
                               type="dashed"
-                              onClick={() =>
+                              disabled={
+                                form.getFieldsValue()?.queryParams?.length >= 2
+                              }
+                              onClick={() => {
                                 add({
                                   MaxTemperature: 40,
                                   MinTemperature: 23,
@@ -222,8 +279,17 @@ const SaleComponent = (props: any) => {
                                   Discount: 0.5,
                                   Day: 1,
                                   Kind: 6,
-                                })
-                              }
+                                });
+
+                                if (
+                                  form.getFieldsValue()?.queryParams?.length >=
+                                  2
+                                ) {
+                                  setShowRate(true);
+                                } else {
+                                  setShowRate(false);
+                                }
+                              }}
                               block
                               icon={<PlusOutlined />}
                             >
@@ -236,7 +302,7 @@ const SaleComponent = (props: any) => {
                             </Button>
                           </Form.Item>
                         </div>
-                      </>
+                      </div>
                     )}
                   </Form.List>
                 </Form>

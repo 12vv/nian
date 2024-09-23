@@ -19,6 +19,9 @@ const BoardEntry = () => {
       <Button onClick={() => navigate("/test")}>
         （多天）按照固定入库量推荐
       </Button>
+      <Button onClick={() => navigate("/testkind")}>
+        （多天）按照固定入库量和种类推荐
+      </Button>
     </div>
   );
 };
