@@ -34,7 +34,7 @@ function App() {
           element={
             <SaleComponent
               title={"按照固定入库量推荐test"}
-              url={"/randomForest/getDaysMaxSaleSpeedCountSort"}
+              url={"/randomForest/getDaysMaxSaleSpeedCountSortByKind"}
               isKind={true}
             />
           }

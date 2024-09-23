@@ -64,56 +64,56 @@ const SaleComponent = (props: any) => {
     getRecommend(values);
   };
 
-  useEffect(() => {
-    let data2 = [
-      {
-        星期四: [
-          ["虾仁牛肉炒饭", [0.574, 19, 1.2]],
-          ["孜然羊排炒饭", [0.742, 19, 0]],
-          ["咖喱牛腩饭", [0.809, 17, 1.71]],
-          ["秘制卤肉饭", [0.624, 17, 0]],
-          ["酸菜肥肠饭", [0.604, 16, 1.0]],
-          ["木耳小炒肉饭", [0.47, 16, 0.83]],
-        ],
-      },
-      {
-        星期一: [
-          ["孜然羊排炒饭", [0.741, 19, 0]],
-          ["咖喱牛腩饭", [0.808, 18, 1.64]],
-          ["虾仁牛肉炒饭", [0.561, 18, 1.2]],
-          ["酸菜肥肠饭", [0.604, 16, 1.0]],
-          ["木耳小炒肉饭", [0.406, 16, 0.66]],
-          ["秘制卤肉饭", [0.52, 16, 0]],
-        ],
-      },
-    ] as any;
+  // useEffect(() => {
+  //   let data2 = [
+  //     {
+  //       星期四: [
+  //         ["虾仁牛肉炒饭", [0.574, 19, 1.2]],
+  //         ["孜然羊排炒饭", [0.742, 19, 0]],
+  //         ["咖喱牛腩饭", [0.809, 17, 1.71]],
+  //         ["秘制卤肉饭", [0.624, 17, 0]],
+  //         ["酸菜肥肠饭", [0.604, 16, 1.0]],
+  //         ["木耳小炒肉饭", [0.47, 16, 0.83]],
+  //       ],
+  //     },
+  //     {
+  //       星期一: [
+  //         ["孜然羊排炒饭", [0.741, 19, 0]],
+  //         ["咖喱牛腩饭", [0.808, 18, 1.64]],
+  //         ["虾仁牛肉炒饭", [0.561, 18, 1.2]],
+  //         ["酸菜肥肠饭", [0.604, 16, 1.0]],
+  //         ["木耳小炒肉饭", [0.406, 16, 0.66]],
+  //         ["秘制卤肉饭", [0.52, 16, 0]],
+  //       ],
+  //     },
+  //   ] as any;
 
-    let dataMap = {} as any;
-    let dmap = data2?.map((item: any) => {
-      dataMap = { ...dataMap, ...item };
-      return { ...item };
-    });
+  //   let dataMap = {} as any;
+  //   let dmap = data2?.map((item: any) => {
+  //     dataMap = { ...dataMap, ...item };
+  //     return { ...item };
+  //   });
 
-    console.log(dataMap, dmap);
-    setOriTableData(dataMap);
-    data2 = dataMap;
+  //   console.log(dataMap, dmap);
+  //   setOriTableData(dataMap);
+  //   data2 = dataMap;
 
-    let data = [] as any;
-    let titles = Object.keys(data2);
-    setTitles(titles);
-    if (typeof data2 == "object") {
-      Object.keys(data2).map((k: any) => {
-        let oneChart = [] as any;
-        data2?.[k]?.map((item: any) => {
-          oneChart.push({ name: item?.[0], count: item?.[1]?.[1] });
-        });
-        data.push(oneChart);
-      });
+  //   let data = [] as any;
+  //   let titles = Object.keys(data2);
+  //   setTitles(titles);
+  //   if (typeof data2 == "object") {
+  //     Object.keys(data2).map((k: any) => {
+  //       let oneChart = [] as any;
+  //       data2?.[k]?.map((item: any) => {
+  //         oneChart.push({ name: item?.[0], count: item?.[1]?.[1] });
+  //       });
+  //       data.push(oneChart);
+  //     });
 
-      console.log(data);
-      setAllData(data);
-    }
-  }, []);
+  //     console.log(data);
+  //     setAllData(data);
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   if (OriTableData?.length == 0) return;
@@ -161,7 +161,26 @@ const SaleComponent = (props: any) => {
 
     try {
       const res = await axios.post(`${basePath}${url}`, { ...params });
+      let data2 = res?.data?.data;
+      console.log(res?.data, data2);
       setOriTableData(res?.data?.data);
+
+      let data = [] as any;
+      let titles = Object.keys(data2);
+      setTitles(titles);
+      if (typeof data2 == "object") {
+        Object.keys(data2).map((k: any) => {
+          let oneChart = [] as any;
+          data2?.[k]?.map((item: any) => {
+            oneChart.push({ name: item?.[0], count: item?.[1]?.[1] });
+          });
+          data.push(oneChart);
+        });
+
+        console.log(data);
+        setAllData(data);
+      }
+
       setLoading(false);
     } catch (e) {
       console.log(e);
