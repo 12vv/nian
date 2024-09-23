@@ -270,6 +270,8 @@ const SaleComponent = (props: any) => {
                   {allData?.map((item: any, index: number) => {
                     return (
                       <Card
+                        size="small"
+                        key={index}
                         hoverable
                         onClick={() => {
                           setCurrent(OriTableData?.[titles?.[index]]);
@@ -282,7 +284,7 @@ const SaleComponent = (props: any) => {
                         }
                         style={{
                           display: "inline-block",
-                          width: "200px",
+                          width: "220px",
                           margin: "0 20px",
                           cursor: "pointer",
                           // height: "200px",
@@ -299,7 +301,7 @@ const SaleComponent = (props: any) => {
                           size="small"
                           dataSource={item}
                           columns={dynamicCol}
-                          // rowKey="month"
+                          rowKey="name"
                         />
                       </Card>
                     );
