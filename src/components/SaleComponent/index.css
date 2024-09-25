@@ -24,6 +24,10 @@
   overflow-y: hidden;
 }
 
+.ant-card-body {
+  padding: 5px 20px !important;
+}
+
 /* .sale-wrapper-common .sale-wrapper-filter {
   max-height: 200px;
   width: 90vw;
@@ -31,7 +35,7 @@
 } */
 
 .sale-wrapper-common .sale-wrapper-filter-card {
-  max-height: 120px;
+  /* max-height: 120px; */
   width: 90vw;
   overflow-y: scroll;
 }

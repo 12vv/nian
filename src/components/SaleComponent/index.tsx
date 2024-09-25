@@ -147,27 +147,7 @@ const SaleComponent = (props: any) => {
       <div className="sale-wrapper-common">
         <div>
           <h1>{title}</h1>
-          <div style={{ marginBottom: 10 }}>
-            <Form form={form1} name="control-hooks1" layout="inline">
-              <Form.Item
-                style={{
-                  display: showRate ? "block" : "none",
-                }}
-                shouldUpdate
-                name={"repetitionRate"}
-                label="重复率"
-                rules={[{ required: true }]}
-              >
-                <InputNumber
-                  onChange={handleRateChange}
-                  style={{ width: 60 }}
-                  min={0}
-                  max={1}
-                  defaultValue={0.5}
-                />
-              </Form.Item>
-            </Form>
-          </div>
+
           {viewType === "table" && (
             <Card
               style={{ width: "90vw" }}
@@ -184,6 +164,63 @@ const SaleComponent = (props: any) => {
                   <Form.List name="queryParams">
                     {(fields, { add, remove }) => (
                       <div>
+                        <div className="btn-wrapper">
+                          <Form.Item
+                            style={{
+                              display: showRate ? "block" : "none",
+                            }}
+                            shouldUpdate
+                            name={"repetitionRate"}
+                            label="重复率"
+                            // rules={[{ required: true }]}
+                          >
+                            <InputNumber
+                              onChange={handleRateChange}
+                              style={{ width: 60 }}
+                              min={0}
+                              max={1}
+                              defaultValue={0.5}
+                            />
+                          </Form.Item>
+                          <Form.Item>
+                            <Button
+                              type="dashed"
+                              disabled={
+                                form.getFieldsValue()?.queryParams?.length >= 2
+                              }
+                              onClick={() => {
+                                add({
+                                  MaxTemperature: 40,
+                                  MinTemperature: 23,
+                                  StaticStock: 140,
+                                  SunOrRain: 1,
+                                  Discount: 0.5,
+                                  Day: 1,
+                                  Kind: 6,
+                                });
+
+                                if (
+                                  form.getFieldsValue()?.queryParams?.length >=
+                                  2
+                                ) {
+                                  setShowRate(true);
+                                } else {
+                                  setShowRate(false);
+                                }
+                              }}
+                              block
+                              icon={<PlusOutlined />}
+                            >
+                              添加查询日
+                            </Button>
+                          </Form.Item>
+                          <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                              Submit
+                            </Button>
+                          </Form.Item>
+                        </div>
+
                         {fields.map(({ key, name, ...restField }) => (
                           <Space
                             key={key}
@@ -281,45 +318,6 @@ const SaleComponent = (props: any) => {
                             />
                           </Space>
                         ))}
-                        <div className="btn-wrapper">
-                          <Form.Item>
-                            <Button
-                              type="dashed"
-                              disabled={
-                                form.getFieldsValue()?.queryParams?.length >= 2
-                              }
-                              onClick={() => {
-                                add({
-                                  MaxTemperature: 40,
-                                  MinTemperature: 23,
-                                  StaticStock: 140,
-                                  SunOrRain: 1,
-                                  Discount: 0.5,
-                                  Day: 1,
-                                  Kind: 6,
-                                });
-
-                                if (
-                                  form.getFieldsValue()?.queryParams?.length >=
-                                  2
-                                ) {
-                                  setShowRate(true);
-                                } else {
-                                  setShowRate(false);
-                                }
-                              }}
-                              block
-                              icon={<PlusOutlined />}
-                            >
-                              添加查询日
-                            </Button>
-                          </Form.Item>
-                          <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                              Submit
-                            </Button>
-                          </Form.Item>
-                        </div>
                       </div>
                     )}
                   </Form.List>
