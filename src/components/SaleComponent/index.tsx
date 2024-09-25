@@ -9,6 +9,8 @@ import {
   InputNumber,
   Spin,
   Card,
+  Collapse,
+  Divider,
 } from "antd";
 import {
   G2,
@@ -149,181 +151,187 @@ const SaleComponent = (props: any) => {
           <h1>{title}</h1>
 
           {viewType === "table" && (
-            <Card
-              style={{ width: "90vw" }}
-              className="sale-wrapper-filter-card"
-            >
-              <div className="sale-wrapper-filter">
-                <Form
-                  form={form}
-                  name="control-hooks"
-                  onFinish={onFinish}
-                  layout="inline"
-                  onChange={handleFormChange}
-                >
-                  <Form.List name="queryParams">
-                    {(fields, { add, remove }) => (
-                      <div>
-                        <div className="btn-wrapper">
-                          <Form.Item
-                            style={{
-                              display: showRate ? "block" : "none",
-                            }}
-                            shouldUpdate
-                            name={"repetitionRate"}
-                            label="重复率"
-                            // rules={[{ required: true }]}
-                          >
-                            <InputNumber
-                              onChange={handleRateChange}
-                              style={{ width: 60 }}
-                              min={0}
-                              max={1}
-                              defaultValue={0.5}
-                            />
-                          </Form.Item>
-                          <Form.Item>
-                            <Button
-                              type="dashed"
-                              disabled={
-                                form.getFieldsValue()?.queryParams?.length >= 2
-                              }
-                              onClick={() => {
-                                add({
-                                  MaxTemperature: 40,
-                                  MinTemperature: 23,
-                                  StaticStock: 140,
-                                  SunOrRain: 1,
-                                  Discount: 0.5,
-                                  Day: 1,
-                                  Kind: 6,
-                                });
+            <Collapse
+              defaultActiveKey={["1"]}
+              size="small"
+              items={[
+                {
+                  key: "1",
+                  label: "配置查询条件",
+                  children: (
+                    <div className="sale-wrapper-filter">
+                      <Form
+                        form={form}
+                        name="control-hooks"
+                        onFinish={onFinish}
+                        layout="inline"
+                        onChange={handleFormChange}
+                      >
+                        <Form.List name="queryParams">
+                          {(fields, { add, remove }) => (
+                            <div>
+                              <div className="btn-wrapper">
+                                <Form.Item
+                                  style={{
+                                    display: showRate ? "block" : "none",
+                                  }}
+                                  shouldUpdate
+                                  name={"repetitionRate"}
+                                  label="重复率"
+                                  // rules={[{ required: true }]}
+                                >
+                                  <InputNumber
+                                    onChange={handleRateChange}
+                                    style={{ width: 60 }}
+                                    min={0}
+                                    max={1}
+                                    defaultValue={0.5}
+                                  />
+                                </Form.Item>
+                                <Form.Item>
+                                  <Button
+                                    type="dashed"
+                                    disabled={
+                                      form.getFieldsValue()?.queryParams
+                                        ?.length >= 2
+                                    }
+                                    onClick={() => {
+                                      add({
+                                        MaxTemperature: 40,
+                                        MinTemperature: 23,
+                                        StaticStock: 140,
+                                        SunOrRain: 1,
+                                        Discount: 0.5,
+                                        Day: Math.floor(Math.random() * 7) + 1,
+                                        Kind: 6,
+                                      });
 
-                                if (
-                                  form.getFieldsValue()?.queryParams?.length >=
-                                  2
-                                ) {
-                                  setShowRate(true);
-                                } else {
-                                  setShowRate(false);
-                                }
-                              }}
-                              block
-                              icon={<PlusOutlined />}
-                            >
-                              添加查询日
-                            </Button>
-                          </Form.Item>
-                          <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                              Submit
-                            </Button>
-                          </Form.Item>
-                        </div>
+                                      if (
+                                        form.getFieldsValue()?.queryParams
+                                          ?.length >= 2
+                                      ) {
+                                        setShowRate(true);
+                                      } else {
+                                        setShowRate(false);
+                                      }
+                                    }}
+                                    block
+                                    icon={<PlusOutlined />}
+                                  >
+                                    添加查询日
+                                  </Button>
+                                </Form.Item>
+                                <Form.Item>
+                                  <Button type="primary" htmlType="submit">
+                                    Submit
+                                  </Button>
+                                </Form.Item>
+                              </div>
 
-                        {fields.map(({ key, name, ...restField }) => (
-                          <Space
-                            key={key}
-                            style={{
-                              display: "flex",
-                              flexWrap: "wrap",
-                              marginBottom: 8,
-                            }}
-                            align="baseline"
-                          >
-                            <Form.Item
-                              name={[name, "StaticStock"]}
-                              label="固定库存"
-                              rules={[{ required: true }]}
-                            >
-                              <InputNumber style={{ width: 80 }} />
-                            </Form.Item>
+                              {fields.map(({ key, name, ...restField }) => (
+                                <>
+                                  <Space
+                                    key={key}
+                                    style={{
+                                      display: "flex",
+                                      flexWrap: "wrap",
+                                      marginBottom: 8,
+                                    }}
+                                    align="baseline"
+                                  >
+                                    <Form.Item
+                                      name={[name, "StaticStock"]}
+                                      label="固定库存"
+                                      rules={[{ required: true }]}
+                                    >
+                                      <InputNumber style={{ width: 80 }} />
+                                    </Form.Item>
+                                    <Form.Item
+                                      name={[name, "MaxTemperature"]}
+                                      label="最高温度"
+                                      rules={[{ required: true }]}
+                                    >
+                                      <InputNumber style={{ width: 60 }} />
+                                    </Form.Item>
+                                    <Form.Item
+                                      name={[name, "MinTemperature"]}
+                                      label="最低温度"
+                                      rules={[{ required: true }]}
+                                    >
+                                      <InputNumber style={{ width: 60 }} />
+                                    </Form.Item>
+                                    <Form.Item
+                                      name={[name, "SunOrRain"]}
+                                      label="SunOrRain"
+                                      rules={[{ required: true }]}
+                                    >
+                                      <Select placeholder="Select">
+                                        <Option value={1}>Sun</Option>
+                                        <Option value={0}>Rain</Option>
+                                      </Select>
+                                    </Form.Item>
+                                    <Form.Item
+                                      label="折扣"
+                                      rules={[{ required: true }]}
+                                      name={[name, "Discount"]}
+                                    >
+                                      <InputNumber style={{ width: 60 }} />
+                                    </Form.Item>
+                                    <Form.Item
+                                      label="星期"
+                                      rules={[{ required: true }]}
+                                      name={[name, "Day"]}
+                                    >
+                                      <Select
+                                        style={{ width: 60 }}
+                                        options={[
+                                          { value: 1, label: "一" },
+                                          { value: 2, label: "二" },
+                                          { value: 3, label: "三" },
+                                          { value: 4, label: "四" },
+                                          { value: 5, label: "五" },
+                                          { value: 6, label: "六" },
+                                          { value: 7, label: "日" },
+                                        ]}
+                                      />
+                                    </Form.Item>
+                                    {isKind && (
+                                      <Form.Item
+                                        name={[name, "Kind"]}
+                                        // name="Kind"
+                                        label="种类数量"
+                                        rules={[{ required: true }]}
+                                      >
+                                        <InputNumber style={{ width: 50 }} />
+                                      </Form.Item>
+                                    )}
+                                    <MinusCircleOutlined
+                                      onClick={() => {
+                                        remove(name);
+                                        if (
+                                          form.getFieldsValue()?.queryParams
+                                            ?.length >= 2
+                                        ) {
+                                          setShowRate(true);
+                                        } else {
+                                          setShowRate(false);
+                                        }
+                                      }}
+                                    />
+                                  </Space>
 
-                            <Form.Item
-                              name={[name, "MaxTemperature"]}
-                              label="最高温度"
-                              rules={[{ required: true }]}
-                            >
-                              <InputNumber style={{ width: 60 }} />
-                            </Form.Item>
-
-                            <Form.Item
-                              name={[name, "MinTemperature"]}
-                              label="最低温度"
-                              rules={[{ required: true }]}
-                            >
-                              <InputNumber style={{ width: 60 }} />
-                            </Form.Item>
-                            <Form.Item
-                              name={[name, "SunOrRain"]}
-                              label="SunOrRain"
-                              rules={[{ required: true }]}
-                            >
-                              <Select placeholder="Select">
-                                <Option value={1}>Sun</Option>
-                                <Option value={0}>Rain</Option>
-                              </Select>
-                            </Form.Item>
-
-                            <Form.Item
-                              label="折扣"
-                              rules={[{ required: true }]}
-                              name={[name, "Discount"]}
-                            >
-                              <InputNumber style={{ width: 60 }} />
-                            </Form.Item>
-
-                            <Form.Item
-                              label="Day"
-                              rules={[{ required: true }]}
-                              name={[name, "Day"]}
-                            >
-                              <Select
-                                style={{ width: 90 }}
-                                options={[
-                                  { value: 1, label: "星期一" },
-                                  { value: 2, label: "星期二" },
-                                  { value: 3, label: "星期三" },
-                                  { value: 4, label: "星期四" },
-                                  { value: 5, label: "星期五" },
-                                  { value: 6, label: "星期六" },
-                                  { value: 7, label: "星期日" },
-                                ]}
-                              />
-                            </Form.Item>
-
-                            {isKind && (
-                              <Form.Item
-                                name={[name, "Kind"]}
-                                // name="Kind"
-                                label="种类数量"
-                                rules={[{ required: true }]}
-                              >
-                                <InputNumber style={{ width: 50 }} />
-                              </Form.Item>
-                            )}
-
-                            <MinusCircleOutlined
-                              onClick={() => {
-                                remove(name);
-                                if (
-                                  form.getFieldsValue()?.queryParams?.length >=
-                                  2
-                                ) {
-                                  setShowRate(true);
-                                } else {
-                                  setShowRate(false);
-                                }
-                              }}
-                            />
-                          </Space>
-                        ))}
-                      </div>
-                    )}
-                  </Form.List>
-                </Form>
-              </div>
-            </Card>
+                                  {/* <Divider /> */}
+                                </>
+                              ))}
+                            </div>
+                          )}
+                        </Form.List>
+                      </Form>
+                    </div>
+                  ),
+                },
+              ]}
+            />
           )}
 
           <div className="sale-wrapper-header" style={{ marginBottom: "20px" }}>

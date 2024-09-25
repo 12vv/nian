@@ -1,10 +1,13 @@
 .sale-wrapper-common {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
-  height: 90vh;
-  width: 98vw;
-  margin: 20px auto;
+  /* height: 90vh; */
+  /* width: 98vw; */
+  /* margin: 20px auto; */
   justify-content: center;
+  /* align-items: center; */
+  margin-top: 100px;
+  margin: 100px 10px auto 10px;
 }
 
 .sale-wrapper-common .btn-wrapper {
@@ -16,7 +19,7 @@
   /* align-items: center;
   justify-content: center; */
   /* margin: 20px; */
-  height: 55vh;
+  /* height: 55vh; */
   /* flex-wrap: wrap; */
   /* width: 90vw; */
   overflow-x: auto;
@@ -66,11 +69,14 @@
   .sale-wrapper-common .sale-wrapper-filter-card {
     max-height: 700px;
   }
-
-  .sale-wrapper-common .sale-chart-wrapper {
-    /* height: 500px; */
-  }
 }
 
 @media (min-height: 1300px) {
+}
+
+@media (max-width: 500px) {
+  .sale-wrapper-common {
+    margin-top: 100px;
+    width: auto;
+  }
 }
