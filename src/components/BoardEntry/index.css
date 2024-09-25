@@ -1,11 +1,14 @@
 .entry-wrapper {
   height: 50vw;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  flex-direction: column;
 }
 
 .entry-wrapper button {
   margin: 20px;
+}
+
+.entry-wrapper .ant-card-body {
+  padding: 24px 0 !important;
 }
