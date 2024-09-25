@@ -10,6 +10,10 @@
   margin: 100px 10px auto 10px;
 }
 
+.hh .ant-card {
+  overflow: auto !important;
+}
+
 .sale-wrapper-common .btn-wrapper {
   display: flex;
 }
@@ -20,7 +24,7 @@
   justify-content: center; */
   /* margin: 20px; */
   /* height: 55vh; */
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
   /* width: 90vw; */
   overflow-x: auto;
   white-space: nowrap;

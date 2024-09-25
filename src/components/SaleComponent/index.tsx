@@ -137,7 +137,7 @@ const SaleComponent = (props: any) => {
   };
 
   return (
-    <>
+    <div className="hh">
       <BigModal
         data={current}
         visible={visible}
@@ -202,7 +202,7 @@ const SaleComponent = (props: any) => {
                                         StaticStock: 140,
                                         SunOrRain: 1,
                                         Discount: 0.5,
-                                        Day: Math.floor(Math.random() * 7) + 1,
+                                        Day: Math.floor(Math.random() * 6) + 1,
                                         Kind: 6,
                                       });
 
@@ -262,12 +262,12 @@ const SaleComponent = (props: any) => {
                                     </Form.Item>
                                     <Form.Item
                                       name={[name, "SunOrRain"]}
-                                      label="SunOrRain"
+                                      label="晴雨"
                                       rules={[{ required: true }]}
                                     >
                                       <Select placeholder="Select">
-                                        <Option value={1}>Sun</Option>
-                                        <Option value={0}>Rain</Option>
+                                        <Option value={1}>晴</Option>
+                                        <Option value={0}>雨</Option>
                                       </Select>
                                     </Form.Item>
                                     <Form.Item
@@ -291,7 +291,7 @@ const SaleComponent = (props: any) => {
                                           { value: 4, label: "四" },
                                           { value: 5, label: "五" },
                                           { value: 6, label: "六" },
-                                          { value: 7, label: "日" },
+                                          // { value: 7, label: "日" },
                                         ]}
                                       />
                                     </Form.Item>
@@ -494,7 +494,7 @@ const SaleComponent = (props: any) => {
           </Spin>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
