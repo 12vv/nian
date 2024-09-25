@@ -65,7 +65,10 @@ const BigModal: React.FC<ModalFormProps> = ({
       width={"95vw"}
       height={"60vh"}
     >
-      <Card style={{ margin: "0 10px 10px 0" }} title={data?.[0]?.name}>
+      <Card
+        style={{ margin: "0 10px 10px 0", overflow: "auto" }}
+        title={data?.[0]?.name}
+      >
         <>
           <ColumnChart
             title={{
