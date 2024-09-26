@@ -197,12 +197,17 @@ const SaleComponent = (props: any) => {
                                     }
                                     onClick={() => {
                                       add({
-                                        MaxTemperature: 40,
-                                        MinTemperature: 23,
+                                        MaxTemperature: 30,
+                                        MinTemperature: 20,
                                         StaticStock: 140,
                                         SunOrRain: 1,
                                         Discount: 0.5,
-                                        Day: Math.floor(Math.random() * 6) + 1,
+                                        Day: !form.getFieldsValue()?.queryParams
+                                          ? 1
+                                          : (form.getFieldsValue()
+                                              ?.queryParams?.[0]?.["Day"] +
+                                              1) %
+                                            6,
                                         Kind: 6,
                                       });
 
