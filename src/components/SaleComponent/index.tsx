@@ -207,7 +207,7 @@ const SaleComponent = (props: any) => {
                                           : (form.getFieldsValue()
                                               ?.queryParams?.[0]?.["Day"] +
                                               1) %
-                                            6,
+                                            5,
                                         Kind: 6,
                                       });
 
@@ -295,7 +295,7 @@ const SaleComponent = (props: any) => {
                                           { value: 3, label: "三" },
                                           { value: 4, label: "四" },
                                           { value: 5, label: "五" },
-                                          { value: 6, label: "六" },
+                                          // { value: 6, label: "六" },
                                           // { value: 7, label: "日" },
                                         ]}
                                       />
