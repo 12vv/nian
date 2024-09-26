@@ -13,7 +13,7 @@
 
 .sale-wrapper-kind .sale-chart-wrapper {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   /* margin: 20px; */
   /* height: 50vh; */
