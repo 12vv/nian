@@ -35,6 +35,10 @@
 
 .pie-chart-wrapper .ant-spin-container {
   display: flex;
-  justify-content: space-evenly;
-  width: 80vw;
+  /* justify-content: space-evenly; */
+  /* width: 80vw; */
+}
+
+.pie-chart-wrapper .ant-spin-container .bizcharts {
+  margin: 0 20px;
 }
