@@ -23,6 +23,7 @@ import axios from "axios";
 import { basePath } from "../../config";
 import { useState } from "react";
 import CustomDatePicker from "../CustomDatePicker";
+import PrintButton from "../PrintButton";
 
 const columns = [
   { title: "菜品名称", dataIndex: "name", key: "name" },
@@ -183,18 +184,6 @@ const TopBar = () => {
     }
   };
 
-  // const data = [
-  //   { item: "事例一", count: 40, percent: 0.4 },
-  //   { item: "事例二", count: 21, percent: 0.21 },
-  //   { item: "事例三", count: 17, percent: 0.17 },
-  //   {
-  //     item: "事例四xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxYYYY",
-  //     count: 13,
-  //     percent: 0.13,
-  //   },
-  //   { item: "事例五", count: 9, percent: 0.09 },
-  // ];
-
   const cols = {
     percent: {
       formatter: (val: any) => {
@@ -230,10 +219,15 @@ const TopBar = () => {
 
           <Form.Item>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ marginRight: 10 }}
+              >
                 查询
               </Button>
             </Space>
+            {tableData && salesTableData && pieStockData && <PrintButton />}
           </Form.Item>
         </Form>
       </div>
@@ -301,10 +295,10 @@ const TopBar = () => {
         <Divider style={{ marginTop: "100px" }}>饼图</Divider>
 
         <div className="pie-chart-wrapper">
-          <Spin spinning={pieSaleLoading}>
+          <Spin spinning={pieSaleLoading} style={{ display: "flex" }}>
             <Chart
               height={400}
-              width={500}
+              width={400}
               data={pieSaleData}
               scale={cols}
               autoFit
@@ -354,7 +348,7 @@ const TopBar = () => {
             {/* <Divider type="vertical" style={{ height: "80%" }} /> */}
             <Chart
               height={400}
-              width={500}
+              width={400}
               data={pieStockData}
               scale={cols}
               autoFit

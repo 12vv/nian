@@ -1,0 +1,7 @@
+@media print {
+  @page {
+    size: A4 landscape; /* 设置为横向 A4 纸张 */
+  }
+
+  /* 其他打印样式 */
+}
