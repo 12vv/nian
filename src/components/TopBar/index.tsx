@@ -236,6 +236,7 @@ const TopBar = () => {
         <Spin spinning={tableLoading}>
           <div className="chart-wrapper">
             <Table
+              bordered
               dataSource={tableData?.slice(0, 3)}
               columns={columns}
               size="small"
@@ -244,6 +245,7 @@ const TopBar = () => {
             />
             <Divider type="vertical" style={{ height: "80%" }} />
             <Table
+              bordered
               size="small"
               dataSource={tableData?.slice(-3)}
               columns={columns}
@@ -258,6 +260,7 @@ const TopBar = () => {
         <Spin spinning={profitTableLoading}>
           <div className="chart-wrapper">
             <Table
+              bordered
               title={() => "TOP 3"}
               size="small"
               dataSource={profitTableData?.slice(0, 3)}
@@ -266,6 +269,7 @@ const TopBar = () => {
             />
             <Divider type="vertical" style={{ height: "80%" }} />
             <Table
+              bordered
               title={() => "LAST 3"}
               size="small"
               dataSource={profitTableData?.slice(-3)}
@@ -278,6 +282,7 @@ const TopBar = () => {
         <Spin spinning={salesTableLoading}>
           <div className="chart-wrapper">
             <Table
+              bordered
               title={() => "TOP 3"}
               size="small"
               dataSource={salesTableData?.slice(0, 3)}
@@ -286,6 +291,7 @@ const TopBar = () => {
             />
             <Divider type="vertical" style={{ height: "80%" }} />
             <Table
+              bordered
               title={() => "LAST 3"}
               size="small"
               dataSource={salesTableData?.slice(-3)}
