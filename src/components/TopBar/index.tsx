@@ -324,7 +324,9 @@ const TopBar = () => {
                 }}
                 label={[
                   "count",
+
                   {
+                    offset: 30,
                     // label 太长自动截断
                     layout: {
                       type: "overlap",
@@ -378,6 +380,7 @@ const TopBar = () => {
                 label={[
                   "count",
                   {
+                    offset: 30,
                     layout: {
                       type: "overlap",
                       cfg: { action: "ellipsis" },
