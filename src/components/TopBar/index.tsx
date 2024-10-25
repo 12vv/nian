@@ -187,7 +187,7 @@ const TopBar = () => {
   const cols = {
     percent: {
       formatter: (val: any) => {
-        val = val * 100 + "%";
+        val = (val * 100).toFixed(2) + "%";
         return val;
       },
     },
@@ -239,9 +239,7 @@ const TopBar = () => {
               dataSource={tableData?.slice(0, 3)}
               columns={columns}
               size="small"
-              title={() => {
-                <>{"TOP 3"}</>;
-              }}
+              title={() => "TOP 3"}
               pagination={false}
             />
             <Divider type="vertical" style={{ height: "80%" }} />
@@ -250,7 +248,7 @@ const TopBar = () => {
               dataSource={tableData?.slice(-3)}
               columns={columns}
               title={() => {
-                <>{"LAST 3"}</>;
+                return <>{"LAST 3"}</>;
               }}
               pagination={false}
             />
@@ -260,6 +258,7 @@ const TopBar = () => {
         <Spin spinning={profitTableLoading}>
           <div className="chart-wrapper">
             <Table
+              title={() => "TOP 3"}
               size="small"
               dataSource={profitTableData?.slice(0, 3)}
               columns={profitColumns}
@@ -267,6 +266,7 @@ const TopBar = () => {
             />
             <Divider type="vertical" style={{ height: "80%" }} />
             <Table
+              title={() => "LAST 3"}
               size="small"
               dataSource={profitTableData?.slice(-3)}
               columns={profitColumns}
@@ -278,6 +278,7 @@ const TopBar = () => {
         <Spin spinning={salesTableLoading}>
           <div className="chart-wrapper">
             <Table
+              title={() => "TOP 3"}
               size="small"
               dataSource={salesTableData?.slice(0, 3)}
               columns={salesColumns}
@@ -285,6 +286,7 @@ const TopBar = () => {
             />
             <Divider type="vertical" style={{ height: "80%" }} />
             <Table
+              title={() => "LAST 3"}
               size="small"
               dataSource={salesTableData?.slice(-3)}
               columns={salesColumns}
@@ -325,11 +327,14 @@ const TopBar = () => {
                   {
                     // label 太长自动截断
                     layout: {
-                      type: "limit-in-plot",
+                      type: "overlap",
+                      // type: "limit-in-plot",
                       cfg: { action: "ellipsis" },
                     },
                     content: (data) => {
-                      return `${data.item}: ${data.percent * 100}%`;
+                      return `${data.item}: ${(
+                        data.percent.toFixed(2) * 100
+                      ).toFixed(2)}%`;
                     },
                   },
                 ]}
@@ -373,9 +378,8 @@ const TopBar = () => {
                 label={[
                   "count",
                   {
-                    // label 太长自动截断
                     layout: {
-                      type: "limit-in-plot",
+                      type: "overlap",
                       cfg: { action: "ellipsis" },
                     },
                     content: (data) => {
