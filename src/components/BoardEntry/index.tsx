@@ -39,6 +39,14 @@ const BoardEntry = () => {
       >
         <Meta title="（多天）按照固定入库量和种类推荐" />
       </Card>
+      <Card
+        hoverable
+        style={{ width: 300 }}
+        cover={<img alt="example" src={"/1.jpeg"} />}
+        onClick={() => navigate("/top")}
+      >
+        <Meta title="报表系统" />
+      </Card>
     </div>
   );
 

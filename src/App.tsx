@@ -11,6 +11,7 @@ import AllFactorBar from "./components/AllFactorBar";
 import SaleComponent from "./components/SaleComponent";
 import SaleCategory from "./components/SaleRecommend2";
 import SaleCategory2 from "./components/SaleRecommend2";
+import TopBar from "./components/TopBar";
 
 function App() {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ function App() {
             />
           }
         />
+        <Route path="top" element={<TopBar />} />
         {/* <Route path="*" element={<NoMatch />} /> */}
       </Routes>
     </div>

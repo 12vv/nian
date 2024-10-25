@@ -19,7 +19,7 @@ const SelectName = (props: any) => {
 
   const getNameList = async () => {
     try {
-      const res = await axios.get(`${basePath}/getAllDishName`);
+      const res = await axios.get(`${basePath}/information/getAllDishName`);
       const data = res?.data?.data?.map((item: any) => ({
         key: item?.name,
         value: item?.name,

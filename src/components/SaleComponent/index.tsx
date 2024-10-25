@@ -36,6 +36,8 @@ import BigModal from "./BigModal";
 
 const columns = [
   { title: "菜品名称", dataIndex: "name", key: "name" },
+  { title: "辣度", dataIndex: "spicy", key: "spicy" },
+  { title: "品类", dataIndex: "category", key: "category" },
   { title: "数量", dataIndex: "count", key: "count" },
 ];
 
@@ -90,7 +92,13 @@ const SaleComponent = (props: any) => {
         Object.keys(data2).map((k: any) => {
           let oneChart = [] as any;
           data2?.[k]?.map((item: any) => {
-            oneChart.push({ name: item?.[0], count: item?.[1]?.[1] });
+            oneChart.push({
+              name: item?.[0],
+              count: item?.[1]?.[1],
+              days: item?.[2],
+              spicy: item?.[3],
+              category: item?.[4],
+            });
           });
           data.push(oneChart);
         });
@@ -383,7 +391,7 @@ const SaleComponent = (props: any) => {
                         }
                         style={{
                           display: "inline-block",
-                          width: "220px",
+                          width: "340px",
                           margin: "0 20px",
                           cursor: "pointer",
                           // height: "200px",
