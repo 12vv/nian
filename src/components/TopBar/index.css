@@ -32,3 +32,7 @@
   /* margin: 20px; */
   /* height: 50vh; */
 }
+
+.pie-chart-wrapper .ant-spin-container {
+  display: flex;
+}
