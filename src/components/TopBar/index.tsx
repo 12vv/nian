@@ -392,7 +392,9 @@ const TopBar = () => {
                       cfg: { action: "ellipsis" },
                     },
                     content: (data) => {
-                      return `${data.item}: ${data.percent * 100}%`;
+                      return `${data.item}: ${(
+                        data.percent.toFixed(2) * 100
+                      ).toFixed(2)}%`;
                     },
                   },
                 ]}
