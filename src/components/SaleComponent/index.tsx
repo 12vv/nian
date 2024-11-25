@@ -199,10 +199,10 @@ const SaleComponent = (props: any) => {
                                 <Form.Item>
                                   <Button
                                     type="dashed"
-                                    // disabled={
-                                    //   form.getFieldsValue()?.queryParams
-                                    //     ?.length >= 2
-                                    // }
+                                    disabled={
+                                      form.getFieldsValue()?.queryParams
+                                        ?.length >= 5
+                                    }
                                     onClick={() => {
                                       add({
                                         MaxTemperature: 30,
